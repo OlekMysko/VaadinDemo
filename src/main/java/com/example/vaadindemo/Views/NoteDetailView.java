@@ -4,11 +4,14 @@ import com.example.vaadindemo.model.NoteEntity;
 import com.example.vaadindemo.service.NoteService;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.html.Div;
+import com.vaadin.flow.component.notification.Notification;
 import com.vaadin.flow.component.textfield.TextArea;
 import com.vaadin.flow.router.BeforeEvent;
 import com.vaadin.flow.router.HasUrlParameter;
 import com.vaadin.flow.router.Route;
 
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.UUID;
 
 @Route("note")
@@ -23,8 +26,9 @@ public class NoteDetailView extends Div implements HasUrlParameter<String> {
 
         content = new TextArea("Content");
         Button saveButton = new Button("Save", e -> saveNote());
+        Button backButton = new Button("Back", e -> getUI().ifPresent(ui -> ui.navigate("")));
 
-        add(content, saveButton);
+        add(content, saveButton, backButton);
     }
 
     @Override
@@ -32,7 +36,7 @@ public class NoteDetailView extends Div implements HasUrlParameter<String> {
         UUID noteId = UUID.fromString(parameter);
         noteService.note(noteId).ifPresent(noteEntity -> {
             note = noteEntity;
-            content.setValue(note.getContent());
+            content.setValue(note.getContent() != null ? note.getContent() : "");
         });
     }
 
@@ -40,6 +44,11 @@ public class NoteDetailView extends Div implements HasUrlParameter<String> {
         if (note != null) {
             note.setContent(content.getValue());
             noteService.save(note);
+
+            LocalDateTime now = LocalDateTime.now();
+            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("HH:mm");
+            String formattedTime = now.format(formatter);
+            Notification.show("Note saved at " + formattedTime);
         }
     }
 }
