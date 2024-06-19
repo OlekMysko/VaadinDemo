@@ -32,4 +32,8 @@ public class NoteService {
     public void save(NoteEntity note) {
         noteRepository.save(note);
     }
+
+    public void deleteById(UUID noteId) {
+        noteRepository.deleteById(noteId);
+    }
 }

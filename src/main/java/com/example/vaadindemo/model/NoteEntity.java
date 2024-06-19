@@ -11,11 +11,15 @@ import java.util.UUID;
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
+@Table(name = "NOTE")
 public class NoteEntity {
     @Id
     @GeneratedValue
+    @Column(name = "note_id", nullable = false)
     private UUID noteId;
+    @Column(name = "note_title")
     private String title;
+    @Column(name = "note_content")
     private String content;
 
 

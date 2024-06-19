@@ -1,6 +1,6 @@
-CREATE TABLE NoteEntity
+CREATE TABLE NOTE
 (
-    noteId  BINARY(16) PRIMARY KEY,
-    title   VARCHAR(255) NOT NULL,
-    content TEXT
+    note_id  BINARY(16) PRIMARY KEY,
+    note_title   VARCHAR(255) NOT NULL,
+    note_content TEXT
 );
